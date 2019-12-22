@@ -23,9 +23,10 @@
 #ifndef HAVE_MISSING_H
 #define HAVE_MISSING_H
 
-#include <time.h>
+#include <linux/ptp_clock.h>
 #include <sys/syscall.h>
 #include <sys/timex.h>
+#include <time.h>
 #include <unistd.h>
 
 #ifndef ADJ_TAI
@@ -59,6 +60,47 @@ enum {
 	HWTSTAMP_TX_ONESTEP_P2P = 3,
 };
 #endif
+
+#ifdef PTP_EXTTS_REQUEST2
+#define PTP_EXTTS_REQUEST_FAILED "PTP_EXTTS_REQUEST2 failed: %m"
+#else
+#define PTP_EXTTS_REQUEST_FAILED "PTP_EXTTS_REQUEST failed: %m"
+#define PTP_EXTTS_REQUEST2 PTP_EXTTS_REQUEST
+#endif
+
+#ifdef PTP_PEROUT_REQUEST2
+#define PTP_PEROUT_REQUEST_FAILED "PTP_PEROUT_REQUEST2 failed: %m"
+#else
+#define PTP_PEROUT_REQUEST_FAILED "PTP_PEROUT_REQUEST failed: %m"
+#define PTP_PEROUT_REQUEST2 PTP_PEROUT_REQUEST
+#endif
+
+#ifdef PTP_PIN_SETFUNC
+
+#define HAVE_PIN_SETFUNC
+
+#ifdef PTP_PIN_SETFUNC2
+#define PTP_PIN_SETFUNC_FAILED "PTP_PIN_SETFUNC2 failed: %m"
+#else
+#define PTP_PIN_SETFUNC_FAILED "PTP_PIN_SETFUNC failed: %m"
+#define PTP_PIN_SETFUNC2 PTP_PIN_SETFUNC
+#endif
+
+#else /*PTP_PIN_SETFUNC*/
+enum ptp_pin_function {
+	PTP_PF_NONE,
+	PTP_PF_EXTTS,
+	PTP_PF_PEROUT,
+	PTP_PF_PHYSYNC,
+};
+struct ptp_pin_desc {
+	char name[64];
+	unsigned int index;
+	unsigned int func;
+	unsigned int chan;
+	unsigned int rsv[5];
+};
+#endif /*!PTP_PIN_SETFUNC*/
 
 #ifndef LIST_FOREACH_SAFE
 #define	LIST_FOREACH_SAFE(var, head, field, tvar)			\
