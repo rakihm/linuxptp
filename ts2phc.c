@@ -42,6 +42,7 @@ static void usage(char *progname)
 		"                    generic   - an external 1-PPS without ToD information\n"
 		"                    /dev/ptp0 - a local PTP Hardware Clock (PHC)\n"
 		"                    eth0      - a local PTP Hardware Clock (PHC)\n"
+		"                    nmea      - a gps device connected by serial port or network\n"
 		" -v             prints the software version and exits\n"
 		"\n",
 		progname);
@@ -177,6 +178,8 @@ int main(int argc, char *argv[])
 
 	if (!strcasecmp(pps_source, "generic")) {
 		pps_type = TS2PHC_MASTER_GENERIC;
+	} else if (!strcasecmp(pps_source, "nmea")) {
+		pps_type = TS2PHC_MASTER_NMEA;
 	} else {
 		pps_type = TS2PHC_MASTER_PHC;
 	}

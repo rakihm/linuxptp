@@ -20,7 +20,7 @@ struct ts2phc_master;
  */
 enum ts2phc_master_type {
 	TS2PHC_MASTER_GENERIC,
-	TS2PHC_MASTER_GPSD,
+	TS2PHC_MASTER_NMEA,
 	TS2PHC_MASTER_PHC,
 };
 
