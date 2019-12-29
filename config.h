@@ -45,6 +45,16 @@ struct interface {
 	struct sk_ts_info ts_info;
 };
 
+static inline void interface_set_label(struct interface *iface, const char* name)
+{
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wpragmas"
+#pragma GCC diagnostic ignored "-Wunknown-warning-option"
+#pragma GCC diagnostic ignored "-Wstringop-truncation"
+	strncpy(iface->ts_label, name, MAX_IFNAME_SIZE);
+#pragma GCC diagnostic pop
+}
+
 struct config {
 	/* configured interfaces */
 	STAILQ_HEAD(interfaces_head, interface) interfaces;

@@ -847,8 +847,9 @@ int clock_required_modes(struct clock *c)
  */
 static void ensure_ts_label(struct interface *iface)
 {
-	if (iface->ts_label[0] == '\0')
-		strncpy(iface->ts_label, iface->name, MAX_IFNAME_SIZE);
+	if (iface->ts_label[0] == '\0') {
+		interface_set_label(iface, iface->name);
+	}
 }
 
 struct clock *clock_create(enum clock_type type, struct config *config,

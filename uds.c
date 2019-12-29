@@ -68,7 +68,13 @@ static int uds_open(struct transport *t, struct interface *iface, struct fdarray
 	}
 	memset(&sa, 0, sizeof(sa));
 	sa.sun_family = AF_LOCAL;
+
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wpragmas"
+#pragma GCC diagnostic ignored "-Wunknown-warning-option"
+#pragma GCC diagnostic ignored "-Wstringop-truncation"
 	strncpy(sa.sun_path, name, sizeof(sa.sun_path) - 1);
+#pragma GCC diagnostic pop
 
 	unlink(name);
 
